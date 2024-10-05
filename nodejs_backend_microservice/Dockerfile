@@ -1,15 +1,16 @@
-# Use an official Python runtime as a base image
-FROM python:3.10-slim
+# Use an official Node runtime as a parent image
+FROM node:20-alpine
 
-# Set the working directory
+# Set the working directory in the container
 WORKDIR /app
 
-# Copy requirements file and install dependencies
-COPY requirements.txt /app/
-RUN pip install --no-cache-dir -r requirements.txt
+# Copy package.json and install dependencies
+COPY package.json /app/
+RUN npm install
 
 # Copy the application code
 COPY . /app
 
-# Command to run the application
-CMD ["python", "app.py"]
+# Expose the port and start the app
+EXPOSE 5000
+CMD ["npm", "start"]
