@@ -1,3 +1,4 @@
 #!/bin/bash
-# Start all services
-docker-compose up
+# Spin up the entire stack
+docker-compose up --build -d
+

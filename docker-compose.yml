@@ -1,35 +1,25 @@
 version: '3.8'
 
 services:
-  microservice1:
-    build: ./microservice1
-    container_name: microservice1
+  backend:
+    build: ./nodejs_backend_microservice
+    container_name: nodejs_backend_microservice
     ports:
       - "5000:5000"
     environment:
-      - DATABASE_URL=postgres://user:password@postgres:5432/microservice1_db
-    depends_on:
-      - postgres
-    networks:
-      - app-network
-
-  microservice2:
-    build: ./microservice2
-    container_name: microservice2
-    ports:
-      - "5001:5001"
+      - DATABASE_URL=postgres://user:password@postgres:5432/backend_db
     depends_on:
       - postgres
     networks:
       - app-network
 
   postgres:
-    image: postgres:15-alpine
-    container_name: postgres
+    build: ./postgres_microservice
+    container_name: postgres_microservice
     environment:
       POSTGRES_USER: user
       POSTGRES_PASSWORD: password
-      POSTGRES_DB: microservice1_db
+      POSTGRES_DB: backend_db
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks:
@@ -37,7 +27,7 @@ services:
 
   frontend:
     build: ./react_frontend_microservice
-    container_name: react_frontend
+    container_name: react_frontend_microservice
     ports:
       - "3000:80"
     networks:
